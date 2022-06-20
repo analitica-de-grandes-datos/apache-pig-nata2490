@@ -17,5 +17,5 @@ datos = LOAD 'data.tsv' USING PigStorage('\t')
 AS (col1:chararray, col2:datetime, col3:int);
 letters = GROUP datos BY col1;
 count_letters = FOREACH letters GENERATE group as letter, COUNT(datos.col1);
---grouped_letters = ORDER count_letters BY letter DESC;
+
 STORE count_letters INTO 'output' USING PigStorage (',');

@@ -14,3 +14,13 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.tsv' USING PigStorage('\n') AS (line:chararray);
+trans1 = FOREACH datos GENERATE REPLACE(*,'[\\\'\\[\\]]+','');
+trans2 = FOREACH trans1 GENERATE REPLACE(*,'[\\\'\\{\\}]+','');
+trans3 = FOREACH trans2 GENERATE COUNT($1)
+
+
+STORE trans3 INTO 'output' USING PigStorage (',');
+
+--cat output/part-m-*
+--!rm *log *.pig *.csv
