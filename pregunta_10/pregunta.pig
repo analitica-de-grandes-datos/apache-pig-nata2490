@@ -32,8 +32,9 @@ BY (
   lastname == 'Conway'
   );
 
-STORE trans2 INTO 'output' USING PigStorage (',');
+trans3 = ORDER trans2 BY $1 DESC;
+STORE trans3 INTO 'output' USING PigStorage (',');
 
---cat output/part-m-*
+--cat output/part-r-*
 --!rm *log *.pig *.csv
 
