@@ -22,4 +22,12 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.csv' USING PigStorage(',')
+AS (col1:int, col2:chararray, col3:chararray, col4:datetime, col5:chararray, col6:int);
+trans1 = FOREACH datos GENERATE ToString(col4, 'yyyy,yy') AS date;
+
+STORE trans1 INTO 'output' USING PigStorage (',');
+
+--cat output/part-m-*
+--!rm *log *.pig *.csv
 

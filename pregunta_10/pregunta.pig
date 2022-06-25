@@ -20,4 +20,21 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.csv' USING PigStorage(',')
+AS (col1:int, col2:chararray, col3:chararray, col4:chararray, col5:chararray, col6:int);
+trans1 = FOREACH datos GENERATE col3 AS lastname, SIZE(col3);
+trans2 = FILTER trans1
+BY (
+  lastname == 'Hamilton' OR
+  lastname == 'Garrett' OR
+  lastname == 'Holcomb' OR
+  lastname == 'Coffey' OR
+  lastname == 'Conway'
+  );
+
+trans3 = ORDER trans2 BY $1 DESC;
+STORE trans3 INTO 'output' USING PigStorage (',');
+
+--cat output/part-r-*
+--!rm *log *.pig *.csv
 
